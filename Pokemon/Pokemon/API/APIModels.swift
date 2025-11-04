@@ -1,0 +1,33 @@
+//
+//  APIItem.swift
+//  Pokemon
+//
+//  Created by Bern on 2025/11/2.
+//
+
+import SwiftData
+
+@Model
+final class APIItem: Decodable {
+    var name: String
+    var url: String
+
+    private enum CodingKeys: String, CodingKey {
+        case name, url
+    }
+
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.url = try container.decode(String.self, forKey: .url)
+    }
+
+    init(name: String, url: String) {
+        self.name = name
+        self.url = url
+    }
+}
+
+struct APIResponse: Decodable {
+    let results: [APIItem]
+}
